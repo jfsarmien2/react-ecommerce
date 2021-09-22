@@ -72,10 +72,55 @@ const filter_reducer = (state, action) => {
           }
         };
     case FILTER_PRODUCTS:
-       console.log('filtering products...')
+        const { all_products } = state
+        const {text, category, company, color, price, shipping} = state.filters
+        let newProducts = [...all_products]
+        
+        if(text) {
+           newProducts = newProducts.filter((product) => {
+              return product.name.toLowerCase().startsWith(text)
+           })
+        }
+
+        if(category !== 'all') {
+          newProducts = newProducts.filter((product) => product.category === category)
+        }
+
+        if(company !== 'all') {
+          newProducts = newProducts.filter((product) => product.company === company)
+        }
+
+        if(color !== 'all') {
+          newProducts = newProducts.filter((product) => {
+            return product.colors.find((c) => c === color)
+          })
+        }
+
+        if(price) {
+          newProducts = newProducts.filter((product) => product.price <= price)
+        }
+
+        if(shipping) {
+           newProducts = newProducts.filter((product) => product.shipping === true)
+        }
+
         return {
           ...state,
+          filtered_products: newProducts
         };
+    case CLEAR_FILTERS:
+      return {
+         ...state,
+         filters: {
+            ...state.filters,
+            text: '',
+            company: 'all',
+            category: 'all',
+            color: 'all',
+            price: state.filters.max_price,
+            shipping: false,
+        }
+      };
     default:
       return state
   }
