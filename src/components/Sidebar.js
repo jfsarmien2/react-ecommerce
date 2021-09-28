@@ -5,11 +5,11 @@ import { useProductsContext } from '../context/products_context'
 import { FaTimes } from 'react-icons/fa'
 import { links } from '../utils/constants'
 import styled from 'styled-components'
-import CartButtons from './CartButtons'
 import { useUserContext } from '../context/user_context'
 
 const Sidebar = () => {
   const { isSidebarOpen, closeSidebar } = useProductsContext()
+  const { person } = useUserContext()
   return(
     <SidebarContainer>
         <aside className={`${isSidebarOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>
@@ -29,9 +29,11 @@ const Sidebar = () => {
                       </li>
                     )
                 })}
-                <li>
-                    <Link to="/checkout" onClick={closeSidebar}>Checkout</Link>
-                </li>
+                {person &&
+                  <li>
+                      <Link to="/checkout" onClick={closeSidebar}>Checkout</Link>
+                  </li>
+                }
             </ul>
 
         </aside>

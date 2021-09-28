@@ -16,6 +16,7 @@ import {
 function App() {
 
   return(
+    <AuthWrapper>
     <Router>
       <Navbar />
       <Sidebar />
@@ -38,13 +39,9 @@ function App() {
           
           <Route path='/products/:id' children={<SingleProduct />} />
 
-          <Route path='/checkout'>
+          <PrivateRoute path='/checkout'>
             <Checkout />
-          </Route>
-          
-          {/* <PrivateRoute path='/checkout'>
-            <Checkout />
-          </PrivateRoute> */}
+          </PrivateRoute>
 
           <Route path='*'>
             <Error />
@@ -53,6 +50,7 @@ function App() {
       </Switch>
       <Footer />
     </Router>
+  </AuthWrapper>
   )
 }
 
